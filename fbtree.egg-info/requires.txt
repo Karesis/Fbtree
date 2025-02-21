@@ -1,0 +1,11 @@
+
+[dev]
+pytest>=6.0
+black
+flake8
+mypy
+isort
+
+[docs]
+sphinx
+sphinx-rtd-theme
