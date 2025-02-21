@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "storage_type": "memory",
+    "exported_at": "2025-02-21T10:17:44.514983"
+  },
+  "fibers": {
+    "root": {
+      "fiber_id": "root",
+      "parent_id": null,
+      "moves": [],
+      "metadata": {},
+      "stats": {
+        "visit_count": 3,
+        "win_count": 2,
+        "loss_count": 1,
+        "draw_count": 0
+      }
+    },
+    "5c0d4375-7f72-4716-b64b-35c1907b66cd": {
+      "fiber_id": "5c0d4375-7f72-4716-b64b-35c1907b66cd",
+      "parent_id": "root",
+      "moves": [
+        {
+          "value": "A",
+          "metadata": {}
+        }
+      ],
+      "metadata": {},
+      "stats": {
+        "visit_count": 3,
+        "win_count": 2,
+        "loss_count": 1,
+        "draw_count": 0
+      }
+    },
+    "33b6cde5-2841-44ab-b6ac-d60633827497": {
+      "fiber_id": "33b6cde5-2841-44ab-b6ac-d60633827497",
+      "parent_id": "5c0d4375-7f72-4716-b64b-35c1907b66cd",
+      "moves": [
+        {
+          "value": "B",
+          "metadata": {}
+        }
+      ],
+      "metadata": {},
+      "stats": {
+        "visit_count": 2,
+        "win_count": 2,
+        "loss_count": 0,
+        "draw_count": 0
+      }
+    },
+    "8f7aa223-e62c-4b0f-8eb4-1d28f45714c3": {
+      "fiber_id": "8f7aa223-e62c-4b0f-8eb4-1d28f45714c3",
+      "parent_id": "33b6cde5-2841-44ab-b6ac-d60633827497",
+      "moves": [
+        {
+          "value": "C",
+          "metadata": {}
+        }
+      ],
+      "metadata": {},
+      "stats": {
+        "visit_count": 1,
+        "win_count": 1,
+        "loss_count": 0,
+        "draw_count": 0
+      }
+    },
+    "b1647275-f775-4aaf-baa4-7f858f8d0039": {
+      "fiber_id": "b1647275-f775-4aaf-baa4-7f858f8d0039",
+      "parent_id": "33b6cde5-2841-44ab-b6ac-d60633827497",
+      "moves": [
+        {
+          "value": "D",
+          "metadata": {}
+        }
+      ],
+      "metadata": {},
+      "stats": {
+        "visit_count": 1,
+        "win_count": 1,
+        "loss_count": 0,
+        "draw_count": 0
+      }
+    },
+    "4a4627e7-bcc0-4a87-be25-8657865238ae": {
+      "fiber_id": "4a4627e7-bcc0-4a87-be25-8657865238ae",
+      "parent_id": "5c0d4375-7f72-4716-b64b-35c1907b66cd",
+      "moves": [
+        {
+          "value": "E",
+          "metadata": {}
+        }
+      ],
+      "metadata": {},
+      "stats": {
+        "visit_count": 1,
+        "win_count": 0,
+        "loss_count": 1,
+        "draw_count": 0
+      }
+    }
+  }
+}
