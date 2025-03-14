@@ -123,6 +123,6 @@ Project maintainers will release new versions periodically. The release process 
 If you have any questions or need help, you can contact us through:
 
 - Submitting an Issue on GitHub
-- Sending an email to [project maintainer email]
+- Sending an email to yangyifeng23@mails.ucas.ac.cn
 
 Thank you again for your contribution to the FiberTree project! 

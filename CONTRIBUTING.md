@@ -123,6 +123,6 @@ docs/               # 文档
 如果您有任何问题或需要帮助，可以通过以下方式联系我们：
 
 - 在GitHub上提交Issue
-- 发送邮件至[项目维护者邮箱]
+- 发送邮件至yangyifeng23@mails.ucas.ac.cn
 
 再次感谢您对FiberTree项目的贡献！ 
