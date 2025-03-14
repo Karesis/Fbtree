@@ -13,19 +13,29 @@ with open(os.path.join('fbtree', '__init__.py'), 'r', encoding='utf-8') as f:
             break
 
 # Read the README file for the long description
-with open('README.md', 'r', encoding='utf-8') as f:
-    long_description = f.read()
+try:
+    with open('README.md', 'r', encoding='utf-8') as f:
+        long_description = f.read()
+except UnicodeDecodeError:
+    # 如果UTF-8解码失败，尝试使用其他编码
+    try:
+        with open('README.md', 'r', encoding='gbk') as f:
+            long_description = f.read()
+    except UnicodeDecodeError:
+        # 如果还是失败，使用简单描述
+        long_description = "FiberTree - 专注于存储和分析顺序决策路径的数据库系统"
 
 setup(
     name='fbtree',
     version=version,
-    author='FiberTree Team',
-    author_email='example@example.com',
+    author='杨亦锋 (Karesis)',
+    author_email='yangyifeng23@mails.ucas.ac.cn',
     description='专注于存储和分析顺序决策路径的数据库系统',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/example/fbtree',
+    url='https://github.com/Karesis/Fbtree',
     packages=find_packages(),
+    include_package_data=True,
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
@@ -63,6 +73,5 @@ setup(
         'Bug Reports': 'https://github.com/Karesis/Fbtree/issues',
         'Source Code': 'https://github.com/Karesis/Fbtree',
     },
-    include_package_data=True,
     zip_safe=False,
 )

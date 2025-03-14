@@ -2,5 +2,12 @@
 可视化模块: 提供树结构可视化功能
 """
 
-# 将在未来版本中实现更多可视化功能
-__all__ = [] 
+from .text_viz import visualize_tree_text, generate_path_summary
+from .graph_viz import generate_graphviz, generate_d3_json
+
+__all__ = [
+    'visualize_tree_text',
+    'generate_path_summary',
+    'generate_graphviz',
+    'generate_d3_json'
+] 

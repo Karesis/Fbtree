@@ -1,6 +1,14 @@
+# fbtree.analysis package
+
 """
-分析模块: 提供路径分析和统计功能
+分析功能模块，用于决策树分析
 """
 
-# 将在未来版本中实现更多分析功能
-__all__ = [] 
+# 导入将暴露给用户的功能
+from .path_analysis import analyze_path_frequency, find_winning_paths, calculate_move_impact
+
+__all__ = [
+    'analyze_path_frequency',
+    'find_winning_paths',
+    'calculate_move_impact'
+] 

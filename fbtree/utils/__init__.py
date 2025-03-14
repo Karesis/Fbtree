@@ -1,8 +1,16 @@
+# fbtree.utils package
+
 """
-工具包: 提供各种实用工具和辅助功能
+工具模块，提供缓存和序列化功能
 """
 
 from .cache import LRUCache
-from .serialization import dumps, loads
+from .serialization import serialize_fiber, deserialize_fiber, serialize_move, deserialize_move
 
-__all__ = ['LRUCache', 'dumps', 'loads'] 
+__all__ = [
+    'LRUCache',
+    'serialize_fiber',
+    'deserialize_fiber',
+    'serialize_move',
+    'deserialize_move'
+] 
