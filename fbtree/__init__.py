@@ -29,6 +29,10 @@ from .core.move import Move
 from .core.fiber import Fiber
 from .core.tree import FiberTree
 
+# 导入分析和可视化模块
+from .analysis import analyze_path_frequency, find_winning_paths, calculate_move_impact
+from .visualization import visualize_tree_text, generate_path_summary, generate_graphviz, generate_d3_json
+
 # 简化的接口函数
 def create_tree(storage_type='memory', db_path=None, max_cache_size=1000):
     """
@@ -63,8 +67,17 @@ __all__ = [
     'Fiber',
     'FiberTree',
     'create_tree',
-    'load_tree'
+    'load_tree',
+    # 分析模块导出
+    'analyze_path_frequency',
+    'find_winning_paths',
+    'calculate_move_impact',
+    # 可视化模块导出
+    'visualize_tree_text',
+    'generate_path_summary',
+    'generate_graphviz',
+    'generate_d3_json'
 ]
 
 # 版本信息
-__version__ = "1.1.1"
+__version__ = "1.2.0"

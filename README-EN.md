@@ -1,33 +1,36 @@
-# FiberTree
+# FiberTree - Decision Path Storage and Analysis Library
 
-FiberTree is a flexible, extensible decision path management and analysis library designed for sequential decision problems. It's not just a Monte Carlo Tree Search (MCTS) implementation, but a complete decision analysis framework that helps you store, manage, analyze, and visualize decision paths.
+FiberTree is a database system focused on storing and analyzing sequential decision paths. It efficiently records, stores, and analyzes decision paths, and provides rich statistical functions and visualization tools to help you optimize decision processes.
 
-## Key Features
+## Features
 
-- **Flexible Path Storage**: Supports both memory and SQLite storage backends to meet different application scenarios
-- **Statistical Analysis**: Tracks visit counts, win rates, and other key metrics
-- **Path Learning**: Identifies optimal decision paths based on historical data
-- **Visualization**: Supports both text and graphical visualization of decision trees
-- **Lightweight**: Core design is concise and efficient, easy to integrate
-- **Extensible**: Modular design, easy to customize and extend
+- **Flexible Path Storage** - Support for storage and retrieval of any serializable decision path
+- **Statistical Analysis** - Automatically calculate node visit frequency, win rates, and other statistics
+- **Path Learning** - Optimize decision paths based on existing data
+- **Visualization Capabilities** - Multiple ways to visualize decision trees (text, graphics)
+- **High Performance** - Optimized storage engine, supporting memory and SQLite backends
+- **Easy to Extend** - Clear API design for easy integration and extension
+- **Path Analysis** - Deep analysis functions for decision paths
+- **Multiple Visualization Options** - Support for text, Graphviz, and D3.js visualization formats
 
 ## Application Scenarios
 
-FiberTree is suitable for various scenarios requiring sequential decision analysis:
-
-- **Game AI**: Decision analysis for board games and strategy games
-- **User Behavior Analysis**: Track user decision paths and discover behavior patterns
-- **Business Process Optimization**: Analyze the effects of different decision paths
-- **Risk Assessment**: Evaluate risks and returns of different decision sequences
-- **Recommendation Systems**: Recommend optimal next steps based on historical paths
+- Move analysis and learning in board games
+- Decision path optimization in recommendation systems
+- User behavior path analysis
+- Automated test scenario coverage analysis
+- Decision support systems
+- Path recording and analysis in reinforcement learning
 
 ## Installation
+
+### Using pip
 
 ```bash
 pip install fbtree
 ```
 
-Or install from source:
+### From source
 
 ```bash
 git clone https://github.com/yourusername/fbtree.git
@@ -35,72 +38,96 @@ cd fbtree
 pip install -e .
 ```
 
-## Quick Start
-
-### Basic Usage
+## Basic Usage
 
 ```python
 from fbtree import create_tree, Move
 
-# Create a new decision tree
+# Create a tree
 tree = create_tree()
 
-# Start a new path
+# Start building a path
 tree.start_path()
 
-# Add a series of decisions
-tree.add_move(Move("left"))
-tree.add_move(Move("straight"))
-tree.add_move(Move("right"))
+# Add moves to the path
+tree.add_move(Move("A1"))
+tree.add_move(Move("B2"))
+tree.add_move(Move("C3"))
 
-# Record the outcome of this path
-tree.record_outcome('success')
+# Record the outcome
+tree.record_outcome(win=1, score=10)
 
-# Get statistics for the current path
+# Get statistics
 stats = tree.get_statistics()
 print(stats)
 ```
 
-### Analyzing Best Continuation
+## Analysis Features
 
 ```python
-# Starting from a specific path, analyze the best subsequent actions
-starting_path = [Move("left"), Move("straight")]
-best_moves = tree.get_best_continuation(starting_path)
+from fbtree import create_tree, Move, analyze_path_frequency, find_winning_paths, calculate_move_impact
 
-for move in best_moves:
-    print(f"Action: {move['move']}, Win Rate: {move['win_rate']}, Visits: {move['visits']}")
+# Create and populate a decision tree
+tree = create_tree()
+# ... add some paths and results ...
+
+# Analyze move frequency at different depths
+freq_data = analyze_path_frequency(tree.get_all_fibers())
+print("Move frequency analysis:", freq_data)
+
+# Find high win-rate paths
+winning_paths = find_winning_paths(tree.get_all_fibers(), min_visits=5, min_win_rate=0.6)
+print("High win-rate paths:", winning_paths)
+
+# Calculate the impact of each move on win rates
+impact_data = calculate_move_impact(tree.get_all_fibers())
+print("Move impact analysis:", impact_data)
 ```
 
-### Visualizing the Decision Tree
+## Visualization Features
 
 ```python
-# Visualize the tree as text
-visualization = tree.visualize(max_depth=3, output_format='text')
-print(visualization)
+from fbtree import create_tree, Move, visualize_tree_text, generate_path_summary
+from fbtree import generate_graphviz, generate_d3_json
 
-# Save a graphical visualization (requires graphviz)
-tree.visualize(max_depth=3, output_format='graphviz', output_file='my_tree.png')
+# Create and populate a decision tree
+tree = create_tree()
+# ... add some paths and results ...
+
+# Text visualization
+text_tree = visualize_tree_text(tree.get_all_fibers())
+print(text_tree)
+
+# Path summary
+path_summary = generate_path_summary(tree.get_all_fibers(), min_visits=3)
+print(path_summary)
+
+# Graphviz visualization
+dot_graph = generate_graphviz(tree.get_all_fibers(), max_depth=3, theme='light')
+with open('tree_visualization.dot', 'w') as f:
+    f.write(dot_graph)
+    
+# D3.js data generation
+d3_data = generate_d3_json(tree.get_all_fibers())
+with open('tree_data.json', 'w') as f:
+    f.write(d3_data)
 ```
 
 ## Core Concepts
 
-- **Move**: Represents a single decision or action in a decision sequence
-- **Fiber**: Represents a node in the decision tree, containing statistical information and state
-- **FiberTree**: The core class managing the entire decision tree, providing path addition, query, and analysis functionality
+- **Fiber** - Represents a complete decision path, composed of a series of Moves
+- **Move** - A single step or decision in the decision path
+- **Tree** - Collection of all related decision paths
+- **Storage** - Responsible for persistent storage of decision path data
 
 ## Documentation
 
-For more detailed documentation, please refer to the [docs/](docs/) directory or visit our online documentation.
-
-## Examples
-
-Check the [examples/](examples/) directory for more usage examples.
+For detailed API reference and usage guides, see the [documentation](docs/api_reference.md)
 
 ## Contributing
 
-We welcome all forms of contributions. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for information on how to participate in the project.
+Contributions in code, issue reporting, or feature suggestions are welcome. Please see the [contribution guidelines](CONTRIBUTING-EN.md).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE). 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details 

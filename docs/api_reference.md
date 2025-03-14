@@ -64,89 +64,82 @@ complex_move = Move({"x": 10, "y": 20, "action": "jump"})
 
 ### `Fiber`类
 
-表示决策树中的节点，包含统计信息。
-
-**属性:**
-- `move`: 到达此节点的动作。
-- `stats`: 包含节点统计信息的字典。
-  - `visit_count`: 访问次数。
-  - `win_count`: 胜利次数。
-  - `loss_count`: 失败次数。
-  - `draw_count`: 平局次数。
-  - `win_rate`: 胜率。
-
-**方法:**
-- `update_stats(outcome, visits=1)`: 更新节点统计信息。
-- `merge_stats(other_fiber, strategy='sum')`: 合并另一个节点的统计信息。
-- `serialize()`: 将节点序列化为JSON兼容格式。
-- `deserialize(data)`: 从JSON数据还原节点。
-
-### `FiberTree`类
-
-决策树的核心类，管理节点和提供分析功能。
-
-#### 基本操作
+表示决策树中的一个节点，包含路径和统计信息。
 
 **构造函数:**
 ```python
-FiberTree(storage_type='memory', db_path=None, cache_size=500)
+Fiber(moves=None, stats=None)
 ```
 
 **参数:**
-- `storage_type` (str): 存储后端类型，可选值为 'memory' 或 'sqlite'。
-- `db_path` (str, 可选): SQLite数据库文件路径。
-- `cache_size` (int): 缓存大小。
+- `moves` (List[Move], 可选): 移动序列，默认为空列表。
+- `stats` (Dict, 可选): 统计信息，默认为空字典。
 
 **属性:**
-- `storage`: 存储后端实例。
-- `_current_path`: 当前构建中的路径。
-- `_adding_mode`: 是否处于添加模式。
+- `moves`: 移动序列。
+- `stats`: 统计信息字典。
 
-**路径管理方法:**
+**方法:**
+- `add_move(move)`: 添加移动到序列。
+- `is_empty()`: 检查是否为空路径。
+- `get_path_string()`: 获取路径的字符串表示。
+- `get_win_rate()`: 计算胜率。
+- `update_stats(outcome)`: 更新统计信息。
+- `merge_stats(other_fiber)`: 合并另一个Fiber的统计信息。
+- `serialize()`: 将Fiber序列化为JSON兼容格式。
+- `deserialize(data)`: 从JSON数据还原Fiber。
 
-- `start_path()`: 开始一个新路径。
+### `FiberTree`类
+
+决策树的主类，管理路径和提供分析功能。
+
+**构造函数:**
+```python
+FiberTree(storage_type='memory', db_path=None, max_cache_size=1000)
+```
+
+**参数:**
+- `storage_type` (str, 可选): 存储后端类型，可选值为 'memory' 或 'sqlite'。默认为 'memory'。
+- `db_path` (str, 可选): SQLite数据库文件路径，仅当storage_type为'sqlite'时有效。
+- `max_cache_size` (int, 可选): 最大缓存大小，默认为1000。
+
+#### 路径管理方法
+
+- `start_path(moves=None)`: 开始一个新路径。
+  - **参数:**
+    - `moves` (List[Move], 可选): 初始移动序列，默认为None。
   - **返回:** None
 
-- `add_move(move)`: 向当前路径添加一个动作。
+- `add_move(move)`: 向当前路径添加一个移动。
   - **参数:**
-    - `move` (Move): 要添加的动作。
+    - `move` (Move): 要添加的移动。
   - **返回:** None
 
-- `get_current_path()`: 获取当前路径。
-  - **返回:** List[Move]，当前路径中的动作列表。
-
-- `get_complete_path()`: 获取完整的当前路径，包括动作内容。
-  - **返回:** List[Move]，包含所有动作的当前路径。
-
-- `record_outcome(outcome, visits=1)`: 记录当前路径的结果。
+- `record_outcome(outcome='win', **kwargs)`: 记录当前路径的结果。
   - **参数:**
-    - `outcome` (str): 路径结果，可以是 'win', 'loss', 'draw' 或自定义值。
-    - `visits` (int, 可选): 访问次数，默认为1。
+    - `outcome` (str或Dict, 可选): 结果标识符或结果字典，默认为'win'。
+    - `**kwargs`: 额外的结果数据，将被添加到outcome字典中。
   - **返回:** None
 
-- `simulate_path(path, outcome='win', visits=1, update_stats=True)`: 模拟一条完整路径。
-  - **参数:**
-    - `path` (List[Move]): 动作序列。
-    - `outcome` (str, 可选): 路径结果，默认为'win'。
-    - `visits` (int, 可选): 访问次数，默认为1。
-    - `update_stats` (bool, 可选): 是否更新统计信息，默认为True。
-  - **返回:** str，路径终点的fiber_id。
+- `get_path()`: 获取当前路径。
+  - **返回:** List[Move]，当前路径的移动列表。
 
-**查询方法:**
+- `clear_path()`: 清除当前路径。
+  - **返回:** None
 
-- `find_path(path)`: 查找与给定路径匹配的节点ID。
-  - **参数:**
-    - `path` (List[Move]): 要查找的动作序列。
-  - **返回:** str 或 None，如果找到则返回fiber_id，否则返回None。
+#### 查询方法
 
-- `get_statistics(fiber_id=None)`: 获取节点的统计信息。
+- `get_fiber(moves=None)`: 获取特定路径的Fiber。
   - **参数:**
-    - `fiber_id` (str, 可选): 节点ID，默认为当前路径的终点。
-  - **返回:** Dict，包含节点统计信息的字典。
+    - `moves` (List[Move], 可选): 要查询的移动序列，默认为当前路径。
+  - **返回:** Fiber对象，如果路径不存在则返回None。
 
-- `get_path_statistics(path)`: 获取特定路径的统计信息。
+- `get_all_fibers()`: 获取所有存储的Fiber。
+  - **返回:** Dict，fiber_id到Fiber对象的映射。
+
+- `get_statistics(path=None)`: 获取特定路径的统计信息。
   - **参数:**
-    - `path` (List[Move]): 动作序列。
+    - `path` (List[Move], 可选): 要查询的路径，默认为当前路径。
   - **返回:** Dict，包含统计信息的字典，如果路径不存在则返回None。
 
 #### 分析方法
@@ -293,36 +286,210 @@ LRUCache(max_size=100)
 - `serialize_move(move)`: 将Move对象序列化为JSON兼容格式。
 - `deserialize_move(data)`: 从JSON数据还原Move对象。
 
+## 分析模块
+
+### `analyze_path_frequency()`
+
+分析不同深度上移动的频率分布。
+
+**函数签名:**
+```python
+analyze_path_frequency(fibers, depth=None)
+```
+
+**参数:**
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `depth` (int, 可选): 要分析的最大深度，None表示分析所有深度。
+
+**返回:**
+- Dict[int, Dict[str, int]]: 每个深度的移动频率，格式为 {深度: {移动: 频率}}。
+
+**示例:**
+```python
+from fbtree import create_tree, analyze_path_frequency
+
+tree = create_tree()
+# ... 添加路径和结果 ...
+
+freq_data = analyze_path_frequency(tree.get_all_fibers())
+print(freq_data)
+```
+
+### `find_winning_paths()`
+
+寻找胜率高的路径。
+
+**函数签名:**
+```python
+find_winning_paths(fibers, min_visits=1, min_win_rate=0.5)
+```
+
+**参数:**
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `min_visits` (int, 可选): 最小访问次数，用于过滤低置信度的路径，默认为1。
+- `min_win_rate` (float, 可选): 最小胜率阈值，默认为0.5。
+
+**返回:**
+- List[Tuple[List[Move], float]]: 符合条件的路径列表，每项包含移动序列和胜率。
+
+**示例:**
+```python
+from fbtree import create_tree, find_winning_paths
+
+tree = create_tree()
+# ... 添加路径和结果 ...
+
+winning_paths = find_winning_paths(tree.get_all_fibers(), min_visits=5, min_win_rate=0.6)
+for path, win_rate in winning_paths:
+    print(f"路径: {path}, 胜率: {win_rate:.2f}")
+```
+
+### `calculate_move_impact()`
+
+计算每个移动对胜率的影响。
+
+**函数签名:**
+```python
+calculate_move_impact(fibers)
+```
+
+**参数:**
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+
+**返回:**
+- Dict[str, Dict[str, float]]: 每个移动的影响统计，格式为 {移动: {'win_rate': 平均胜率, 'count': 出现次数}}。
+
+**示例:**
+```python
+from fbtree import create_tree, calculate_move_impact
+
+tree = create_tree()
+# ... 添加路径和结果 ...
+
+impact_data = calculate_move_impact(tree.get_all_fibers())
+for move, stats in impact_data.items():
+    print(f"移动: {move}, 平均胜率: {stats['win_rate']:.2f}, 出现次数: {stats['count']}")
+```
+
 ## 可视化模块
 
 ### 文本可视化
 
-- `visualize_text(tree, max_depth=None)`: 生成树的文本表示。
+#### `visualize_tree_text()`
+
+生成树的文本可视化表示。
+
+**函数签名:**
+```python
+visualize_tree_text(fibers, root_id='root', max_depth=None, include_stats=True)
+```
 
 **参数:**
-- `tree` (FiberTree): 要可视化的树。
-- `max_depth` (int, 可选): 最大可视化深度，默认为None（全部）。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `root_id` (str, 可选): 根节点的ID，默认为'root'。
+- `max_depth` (int, 可选): 最大可视化深度，None表示不限制。
+- `include_stats` (bool, 可选): 是否包含统计信息，默认为True。
 
 **返回:**
 - str: 树的文本表示。
 
-### Graphviz可视化
+**示例:**
+```python
+from fbtree import create_tree, visualize_tree_text
 
-- `generate_graphviz(tree, max_depth=None)`: 生成树的Graphviz DOT表示。
+tree = create_tree()
+# ... 添加路径和结果 ...
+
+text_viz = visualize_tree_text(tree.get_all_fibers(), max_depth=3)
+print(text_viz)
+```
+
+#### `generate_path_summary()`
+
+生成路径摘要信息。
+
+**函数签名:**
+```python
+generate_path_summary(fibers, min_visits=1, sort_by='win_rate')
+```
 
 **参数:**
-- `tree` (FiberTree): 要可视化的树。
-- `max_depth` (int, 可选): 最大可视化深度，默认为None（全部）。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `min_visits` (int, 可选): 最小访问次数阈值，默认为1。
+- `sort_by` (str, 可选): 排序依据，'win_rate'或'visits'，默认为'win_rate'。
 
 **返回:**
-- str: 树的Graphviz DOT表示。
+- str: 路径摘要文本。
 
-- `save_graphviz(dot_string, output_file, format='png')`: 保存Graphviz图像。
+**示例:**
+```python
+from fbtree import create_tree, generate_path_summary
+
+tree = create_tree()
+# ... 添加路径和结果 ...
+
+summary = generate_path_summary(tree.get_all_fibers(), min_visits=3, sort_by='visits')
+print(summary)
+```
+
+### 图形可视化
+
+#### `generate_graphviz()`
+
+生成Graphviz DOT格式的树表示。
+
+**函数签名:**
+```python
+generate_graphviz(fibers, root_id='root', max_depth=None, include_stats=True, theme='light')
+```
 
 **参数:**
-- `dot_string` (str): Graphviz DOT字符串。
-- `output_file` (str): 输出文件路径。
-- `format` (str, 可选): 输出格式，默认为'png'。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `root_id` (str, 可选): 根节点的ID，默认为'root'。
+- `max_depth` (int, 可选): 最大可视化深度，None表示不限制。
+- `include_stats` (bool, 可选): 是否包含统计信息，默认为True。
+- `theme` (str, 可选): 可视化主题，'light'或'dark'，默认为'light'。
 
 **返回:**
-- None 
+- str: Graphviz DOT格式表示。
+
+**示例:**
+```python
+from fbtree import create_tree, generate_graphviz
+
+tree = create_tree()
+# ... 添加路径和结果 ...
+
+dot_string = generate_graphviz(tree.get_all_fibers(), max_depth=3, theme='dark')
+with open('tree.dot', 'w') as f:
+    f.write(dot_string)
+```
+
+#### `generate_d3_json()`
+
+生成用于D3.js可视化的JSON数据。
+
+**函数签名:**
+```python
+generate_d3_json(fibers, root_id='root', max_depth=None)
+```
+
+**参数:**
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `root_id` (str, 可选): 根节点的ID，默认为'root'。
+- `max_depth` (int, 可选): 最大可视化深度，None表示不限制。
+
+**返回:**
+- str: JSON字符串，可用于D3.js树形图。
+
+**示例:**
+```python
+from fbtree import create_tree, generate_d3_json
+
+tree = create_tree()
+# ... 添加路径和结果 ...
+
+json_data = generate_d3_json(tree.get_all_fibers())
+with open('tree_data.json', 'w') as f:
+    f.write(json_data)
+``` 

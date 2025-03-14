@@ -1,33 +1,36 @@
-﻿# FiberTree (纤维树)
+﻿# FiberTree 决策路径存储与分析库
 
-FiberTree 是一个灵活、可扩展的决策路径管理和分析库，专为序列决策问题设计。它不仅仅是一个蒙特卡罗树搜索(MCTS)实现，更是一个完整的决策分析框架，能够帮助您存储、管理、分析和可视化决策路径。
+FiberTree 是一个专注于存储和分析顺序决策路径的数据库系统。它能高效地记录、存储和分析决策路径，并提供丰富的统计功能和可视化工具，帮助您优化决策过程。
 
-## 主要特点
+## 特点
 
-- **灵活的路径存储**：支持内存和SQLite存储后端，满足不同的应用场景
-- **统计分析**：跟踪访问次数、胜率和其他关键指标
-- **路径学习**：根据历史数据识别最佳决策路径
-- **可视化**：支持文本和图形化可视化决策树
-- **轻量级**：核心设计简洁高效，易于集成
-- **可扩展**：模块化设计，易于定制和扩展
+- **灵活的路径存储** - 支持任何序列化决策路径的存储和检索
+- **统计分析** - 自动计算节点访问频率、胜率等统计数据
+- **路径学习** - 基于现有数据优化决策路径
+- **可视化功能** - 提供多种方式可视化决策树（文本、图形）
+- **高性能** - 优化的存储引擎，支持内存和SQLite后端
+- **易扩展** - 清晰的API设计，便于集成和扩展功能
+- **路径分析** - 提供对决策路径的深度分析功能
+- **多种可视化方案** - 支持文本、Graphviz和D3.js等多种可视化格式
 
 ## 应用场景
 
-FiberTree 适用于各种需要序列决策分析的场景：
-
-- **游戏AI**：棋类游戏、策略游戏的决策分析
-- **用户行为分析**：跟踪用户决策路径，发现行为模式
-- **业务流程优化**：分析不同决策路径的效果
-- **风险评估**：评估不同决策序列的风险和回报
-- **推荐系统**：基于历史路径推荐最佳下一步
+- 棋类游戏的走法分析和学习
+- 推荐系统决策路径优化
+- 用户行为路径分析
+- 自动化测试场景覆盖分析
+- 决策支持系统
+- 强化学习的路径记录与分析
 
 ## 安装
+
+### 使用pip安装
 
 ```bash
 pip install fbtree
 ```
 
-或者从源码安装:
+### 从源码安装
 
 ```bash
 git clone https://github.com/yourusername/fbtree.git
@@ -35,72 +38,96 @@ cd fbtree
 pip install -e .
 ```
 
-## 快速开始
-
-### 基本用法
+## 基本用法
 
 ```python
 from fbtree import create_tree, Move
 
-# 创建一个新的决策树
+# 创建一个树
 tree = create_tree()
 
-# 开始一个新路径
+# 开始构建路径
 tree.start_path()
 
-# 添加一系列决策
-tree.add_move(Move("左转"))
-tree.add_move(Move("直行"))
-tree.add_move(Move("右转"))
+# 添加移动到路径
+tree.add_move(Move("A1"))
+tree.add_move(Move("B2"))
+tree.add_move(Move("C3"))
 
-# 记录这个路径的结果
-tree.record_outcome('success')
+# 记录结果
+tree.record_outcome(win=1, score=10)
 
-# 获取当前路径的统计信息
+# 获取统计信息
 stats = tree.get_statistics()
 print(stats)
 ```
 
-### 分析最佳后续动作
+## 分析功能
 
 ```python
-# 从特定路径开始，分析最佳后续动作
-starting_path = [Move("左转"), Move("直行")]
-best_moves = tree.get_best_continuation(starting_path)
+from fbtree import create_tree, Move, analyze_path_frequency, find_winning_paths, calculate_move_impact
 
-for move in best_moves:
-    print(f"动作: {move['move']}, 胜率: {move['win_rate']}, 访问次数: {move['visits']}")
+# 创建并填充决策树
+tree = create_tree()
+# ... 添加一些路径和结果 ...
+
+# 分析不同深度的移动频率
+freq_data = analyze_path_frequency(tree.get_all_fibers())
+print("移动频率分析:", freq_data)
+
+# 查找高胜率路径
+winning_paths = find_winning_paths(tree.get_all_fibers(), min_visits=5, min_win_rate=0.6)
+print("高胜率路径:", winning_paths)
+
+# 计算各移动对胜率的影响
+impact_data = calculate_move_impact(tree.get_all_fibers())
+print("移动影响分析:", impact_data)
 ```
 
-### 可视化决策树
+## 可视化功能
 
 ```python
-# 以文本形式可视化树
-visualization = tree.visualize(max_depth=3, output_format='text')
-print(visualization)
+from fbtree import create_tree, Move, visualize_tree_text, generate_path_summary
+from fbtree import generate_graphviz, generate_d3_json
 
-# 保存图形化可视化 (需要安装graphviz)
-tree.visualize(max_depth=3, output_format='graphviz', output_file='my_tree.png')
+# 创建并填充决策树
+tree = create_tree()
+# ... 添加一些路径和结果 ...
+
+# 文本可视化
+text_tree = visualize_tree_text(tree.get_all_fibers())
+print(text_tree)
+
+# 路径摘要
+path_summary = generate_path_summary(tree.get_all_fibers(), min_visits=3)
+print(path_summary)
+
+# Graphviz可视化
+dot_graph = generate_graphviz(tree.get_all_fibers(), max_depth=3, theme='light')
+with open('tree_visualization.dot', 'w') as f:
+    f.write(dot_graph)
+    
+# D3.js数据生成
+d3_data = generate_d3_json(tree.get_all_fibers())
+with open('tree_data.json', 'w') as f:
+    f.write(d3_data)
 ```
 
 ## 核心概念
 
-- **Move**：表示在决策序列中的一个单一决策或动作
-- **Fiber**：代表决策树中的一个节点，包含统计信息和状态
-- **FiberTree**：管理整个决策树的核心类，提供路径添加、查询和分析功能
+- **Fiber (纤维)** - 表示一条完整的决策路径，由一系列的Move组成
+- **Move (移动)** - 决策路径中的单一步骤或决策
+- **Tree (树)** - 所有相关决策路径的集合
+- **Storage (存储)** - 负责持久化存储决策路径数据
 
 ## 文档
 
-更详细的文档请参考 [docs/](docs/) 目录或访问我们的在线文档。
+详细的API参考和使用指南请查看[文档](docs/api_reference.md)
 
-## 示例
+## 贡献
 
-查看 [examples/](examples/) 目录获取更多使用示例。
+欢迎贡献代码、报告问题或提出新的功能建议。请参阅[贡献指南](CONTRIBUTING.md)。
 
-## 贡献指南
+## 许可
 
-我们欢迎所有形式的贡献。请参阅 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目。
-
-## 许可证
-
-本项目采用 [MIT 许可证](LICENSE)。 
+本项目基于MIT许可证 - 详情请参阅 [LICENSE](LICENSE) 文件 
