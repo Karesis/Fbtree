@@ -298,7 +298,7 @@ analyze_path_frequency(fibers, depth=None)
 ```
 
 **参数:**
-- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典，使用`tree.get_all_fibers()`获取。
 - `depth` (int, 可选): 要分析的最大深度，None表示分析所有深度。
 
 **返回:**
@@ -325,7 +325,7 @@ find_winning_paths(fibers, min_visits=1, min_win_rate=0.5)
 ```
 
 **参数:**
-- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典，使用`tree.get_all_fibers()`获取。
 - `min_visits` (int, 可选): 最小访问次数，用于过滤低置信度的路径，默认为1。
 - `min_win_rate` (float, 可选): 最小胜率阈值，默认为0.5。
 
@@ -354,10 +354,10 @@ calculate_move_impact(fibers)
 ```
 
 **参数:**
-- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典，使用`tree.get_all_fibers()`获取。
 
 **返回:**
-- Dict[str, Dict[str, float]]: 每个移动的影响统计，格式为 {移动: {'win_rate': 平均胜率, 'count': 出现次数}}。
+- Dict[str, Dict[str, Union[float, int]]]: 每个移动的影响统计，格式为 {移动: {'win_rate': 胜率, 'count': 出现次数}}。
 
 **示例:**
 ```python
@@ -368,7 +368,7 @@ tree = create_tree()
 
 impact_data = calculate_move_impact(tree.get_all_fibers())
 for move, stats in impact_data.items():
-    print(f"移动: {move}, 平均胜率: {stats['win_rate']:.2f}, 出现次数: {stats['count']}")
+    print(f"移动 {move}: 胜率={stats['win_rate']:.2f}, 次数={stats['count']}")
 ```
 
 ## 可视化模块
@@ -377,18 +377,17 @@ for move, stats in impact_data.items():
 
 #### `visualize_tree_text()`
 
-生成树的文本可视化表示。
+生成树的文本表示。
 
 **函数签名:**
 ```python
-visualize_tree_text(fibers, root_id='root', max_depth=None, include_stats=True)
+visualize_tree_text(fibers, max_depth=None, indent=2)
 ```
 
 **参数:**
-- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
-- `root_id` (str, 可选): 根节点的ID，默认为'root'。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典，使用`tree.get_all_fibers()`获取。
 - `max_depth` (int, 可选): 最大可视化深度，None表示不限制。
-- `include_stats` (bool, 可选): 是否包含统计信息，默认为True。
+- `indent` (int, 可选): 缩进空格数，默认为2。
 
 **返回:**
 - str: 树的文本表示。
@@ -414,7 +413,7 @@ generate_path_summary(fibers, min_visits=1, sort_by='win_rate')
 ```
 
 **参数:**
-- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典，使用`tree.get_all_fibers()`获取。
 - `min_visits` (int, 可选): 最小访问次数阈值，默认为1。
 - `sort_by` (str, 可选): 排序依据，'win_rate'或'visits'，默认为'win_rate'。
 
@@ -444,7 +443,7 @@ generate_graphviz(fibers, root_id='root', max_depth=None, include_stats=True, th
 ```
 
 **参数:**
-- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典，使用`tree.get_all_fibers()`获取。
 - `root_id` (str, 可选): 根节点的ID，默认为'root'。
 - `max_depth` (int, 可选): 最大可视化深度，None表示不限制。
 - `include_stats` (bool, 可选): 是否包含统计信息，默认为True。
@@ -475,7 +474,7 @@ generate_d3_json(fibers, root_id='root', max_depth=None)
 ```
 
 **参数:**
-- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典。
+- `fibers` (Dict[str, Fiber]): 包含所有Fiber的字典，使用`tree.get_all_fibers()`获取。
 - `root_id` (str, 可选): 根节点的ID，默认为'root'。
 - `max_depth` (int, 可选): 最大可视化深度，None表示不限制。
 

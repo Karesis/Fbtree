@@ -325,4 +325,211 @@ LRUCache(max_size=100)
 - `format` (str, optional): Output format, default is 'png'.
 
 **Returns:**
-- None 
+- None
+
+## Analysis Module
+
+### `analyze_path_frequency()`
+
+Analyzes the frequency distribution of moves at different depths.
+
+**Function Signature:**
+```python
+analyze_path_frequency(fibers, depth=None)
+```
+
+**Parameters:**
+- `fibers` (Dict[str, Fiber]): Dictionary of all Fibers, obtained using `tree.get_all_fibers()`.
+- `depth` (int, optional): Maximum depth to analyze, None means analyze all depths.
+
+**Returns:**
+- Dict[int, Dict[str, int]]: Move frequency at each depth, in the format {depth: {move: frequency}}.
+
+**Example:**
+```python
+from fbtree import create_tree, analyze_path_frequency
+
+tree = create_tree()
+# ... add paths and results ...
+
+freq_data = analyze_path_frequency(tree.get_all_fibers())
+print(freq_data)
+```
+
+### `find_winning_paths()`
+
+Finds paths with high win rates.
+
+**Function Signature:**
+```python
+find_winning_paths(fibers, min_visits=1, min_win_rate=0.5)
+```
+
+**Parameters:**
+- `fibers` (Dict[str, Fiber]): Dictionary of all Fibers, obtained using `tree.get_all_fibers()`.
+- `min_visits` (int, optional): Minimum visit count to filter low-confidence paths, default is 1.
+- `min_win_rate` (float, optional): Minimum win rate threshold, default is 0.5.
+
+**Returns:**
+- List[Tuple[List[Move], float]]: List of qualifying paths, each including a move sequence and win rate.
+
+**Example:**
+```python
+from fbtree import create_tree, find_winning_paths
+
+tree = create_tree()
+# ... add paths and results ...
+
+winning_paths = find_winning_paths(tree.get_all_fibers(), min_visits=5, min_win_rate=0.6)
+for path, win_rate in winning_paths:
+    print(f"Path: {path}, Win Rate: {win_rate:.2f}")
+```
+
+### `calculate_move_impact()`
+
+Calculates the impact of each move on win rates.
+
+**Function Signature:**
+```python
+calculate_move_impact(fibers)
+```
+
+**Parameters:**
+- `fibers` (Dict[str, Fiber]): Dictionary of all Fibers, obtained using `tree.get_all_fibers()`.
+
+**Returns:**
+- Dict[str, Dict[str, Union[float, int]]]: Impact statistics for each move, in the format {move: {'win_rate': win_rate, 'count': appearance_count}}.
+
+**Example:**
+```python
+from fbtree import create_tree, calculate_move_impact
+
+tree = create_tree()
+# ... add paths and results ...
+
+impact_data = calculate_move_impact(tree.get_all_fibers())
+for move, stats in impact_data.items():
+    print(f"Move {move}: Win Rate={stats['win_rate']:.2f}, Count={stats['count']}")
+```
+
+## Visualization Module
+
+### Text Visualization
+
+#### `visualize_tree_text()`
+
+Generates a text representation of the tree.
+
+**Function Signature:**
+```python
+visualize_tree_text(fibers, max_depth=None, indent=2)
+```
+
+**Parameters:**
+- `fibers` (Dict[str, Fiber]): Dictionary of all Fibers, obtained using `tree.get_all_fibers()`.
+- `max_depth` (int, optional): Maximum visualization depth, None means no limit.
+- `indent` (int, optional): Number of spaces for indentation, default is 2.
+
+**Returns:**
+- str: Text representation of the tree.
+
+**Example:**
+```python
+from fbtree import create_tree, visualize_tree_text
+
+tree = create_tree()
+# ... add paths and results ...
+
+text_viz = visualize_tree_text(tree.get_all_fibers(), max_depth=3)
+print(text_viz)
+```
+
+#### `generate_path_summary()`
+
+Generates path summary information.
+
+**Function Signature:**
+```python
+generate_path_summary(fibers, min_visits=1, sort_by='win_rate')
+```
+
+**Parameters:**
+- `fibers` (Dict[str, Fiber]): Dictionary of all Fibers, obtained using `tree.get_all_fibers()`.
+- `min_visits` (int, optional): Minimum visit count threshold, default is 1.
+- `sort_by` (str, optional): Sorting criterion, 'win_rate' or 'visits', default is 'win_rate'.
+
+**Returns:**
+- str: Path summary text.
+
+**Example:**
+```python
+from fbtree import create_tree, generate_path_summary
+
+tree = create_tree()
+# ... add paths and results ...
+
+summary = generate_path_summary(tree.get_all_fibers(), min_visits=3, sort_by='visits')
+print(summary)
+```
+
+### Graphical Visualization
+
+#### `generate_graphviz()`
+
+Generates a Graphviz DOT format representation of the tree.
+
+**Function Signature:**
+```python
+generate_graphviz(fibers, root_id='root', max_depth=None, include_stats=True, theme='light')
+```
+
+**Parameters:**
+- `fibers` (Dict[str, Fiber]): Dictionary of all Fibers, obtained using `tree.get_all_fibers()`.
+- `root_id` (str, optional): ID of the root node, default is 'root'.
+- `max_depth` (int, optional): Maximum visualization depth, None means no limit.
+- `include_stats` (bool, optional): Whether to include statistics, default is True.
+- `theme` (str, optional): Visualization theme, 'light' or 'dark', default is 'light'.
+
+**Returns:**
+- str: Graphviz DOT format representation.
+
+**Example:**
+```python
+from fbtree import create_tree, generate_graphviz
+
+tree = create_tree()
+# ... add paths and results ...
+
+dot_string = generate_graphviz(tree.get_all_fibers(), max_depth=3, theme='dark')
+with open('tree.dot', 'w') as f:
+    f.write(dot_string)
+```
+
+#### `generate_d3_json()`
+
+Generates JSON data for D3.js visualization.
+
+**Function Signature:**
+```python
+generate_d3_json(fibers, root_id='root', max_depth=None)
+```
+
+**Parameters:**
+- `fibers` (Dict[str, Fiber]): Dictionary of all Fibers, obtained using `tree.get_all_fibers()`.
+- `root_id` (str, optional): ID of the root node, default is 'root'.
+- `max_depth` (int, optional): Maximum visualization depth, None means no limit.
+
+**Returns:**
+- str: JSON string, usable for D3.js tree diagrams.
+
+**Example:**
+```python
+from fbtree import create_tree, generate_d3_json
+
+tree = create_tree()
+# ... add paths and results ...
+
+json_data = generate_d3_json(tree.get_all_fibers())
+with open('tree_data.json', 'w') as f:
+    f.write(json_data)
+``` 

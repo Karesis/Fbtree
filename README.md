@@ -55,7 +55,7 @@ tree.add_move(Move("B2"))
 tree.add_move(Move("C3"))
 
 # 记录结果
-tree.record_outcome(win=1, score=10)
+tree.record_outcome("win")
 
 # 获取统计信息
 stats = tree.get_statistics()
