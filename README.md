@@ -2,6 +2,20 @@
 
 FiberTree 是一个专注于存储和分析顺序决策路径的数据库系统。它能高效地记录、存储和分析决策路径，并提供丰富的统计功能和可视化工具，帮助您优化决策过程。
 
+## 文档导航
+
+📚 **快速访问所有文档资源**：
+
+- **[API参考文档](docs/api_reference.md)** - 详细的中文API参考，包含所有类和方法的说明
+- **[English API Reference](docs/en/api_reference.md)** - 详细的英文API参考文档
+- **[入门教程](docs/tutorials/getting_started.md)** - 快速开始使用FiberTree的新手指南
+- **[高级主题](docs/tutorials/advanced_topics.md)** - 深入了解FiberTree的高级功能
+- **[示例代码](examples/)** - 完整的示例代码，展示如何使用FiberTree
+
+💡 **代码示例**：
+- **[基础用法示例](examples/correct_usage.py)** - 中文版基础用法示例
+- **[Basic Usage Example](examples/correct_usage_en.py)** - 英文版基础用法示例
+
 ## 特点
 
 - **灵活的路径存储** - 支持任何序列化决策路径的存储和检索
@@ -119,10 +133,6 @@ with open('tree_data.json', 'w') as f:
 - **Move (移动)** - 决策路径中的单一步骤或决策
 - **Tree (树)** - 所有相关决策路径的集合
 - **Storage (存储)** - 负责持久化存储决策路径数据
-
-## 文档
-
-详细的API参考和使用指南请查看[文档](docs/api_reference.md)
 
 ## 贡献
 
