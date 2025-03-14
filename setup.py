@@ -7,8 +7,10 @@ from setuptools import setup, find_packages
 
 # Read the package version from __init__.py
 with open(os.path.join('fbtree', '__init__.py'), 'r', encoding='utf-8') as f:
-    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", f.read(), re.M)
-    version = version_match.group(1) if version_match else '0.1.0'
+    for line in f:
+        if line.startswith("__version__"):
+            version = line.split("=")[1].strip().strip('"\'')
+            break
 
 # Read the README file for the long description
 with open('README.md', 'r', encoding='utf-8') as f:
@@ -17,35 +19,28 @@ with open('README.md', 'r', encoding='utf-8') as f:
 setup(
     name='fbtree',
     version=version,
-    author='Karesis',
-    author_email='yangyifeng23@mails.ucas.ac.cn',
-    description='A path-oriented database for storing and analyzing sequential decision paths',
+    author='FiberTree Team',
+    author_email='example@example.com',
+    description='专注于存储和分析顺序决策路径的数据库系统',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/Karesis/Fbtree',
+    url='https://github.com/example/fbtree',
     packages=find_packages(),
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'Intended Audience :: Developers',
-        'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
         'Topic :: Database',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
-        'Topic :: Software Development :: Libraries',
     ],
     keywords=[
-        'decision-tree', 
+        'decision tree', 
         'database', 
-        'sequential-data', 
-        'path-analysis', 
-        'decision-making'
+        'analysis', 
+        'decision paths', 
+        'statistics'
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.6',
     install_requires=[
         # 列出您的项目依赖，例如：
         # 'numpy>=1.20.0',

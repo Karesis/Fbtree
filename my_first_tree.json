@@ -1,9 +1,4 @@
 {
-  "metadata": {
-    "version": "1.0",
-    "storage_type": "memory",
-    "exported_at": "2025-02-21T10:17:44.514983"
-  },
   "fibers": {
     "root": {
       "fiber_id": "root",
@@ -11,14 +6,14 @@
       "moves": [],
       "metadata": {},
       "stats": {
-        "visit_count": 3,
-        "win_count": 2,
-        "loss_count": 1,
+        "visit_count": 0,
+        "win_count": 0,
+        "loss_count": 0,
         "draw_count": 0
       }
     },
-    "5c0d4375-7f72-4716-b64b-35c1907b66cd": {
-      "fiber_id": "5c0d4375-7f72-4716-b64b-35c1907b66cd",
+    "c5a8b127-9eaa-4cde-8877-37d451abbfe9": {
+      "fiber_id": "c5a8b127-9eaa-4cde-8877-37d451abbfe9",
       "parent_id": "root",
       "moves": [
         {
@@ -34,9 +29,9 @@
         "draw_count": 0
       }
     },
-    "33b6cde5-2841-44ab-b6ac-d60633827497": {
-      "fiber_id": "33b6cde5-2841-44ab-b6ac-d60633827497",
-      "parent_id": "5c0d4375-7f72-4716-b64b-35c1907b66cd",
+    "5a7a7330-df35-49ac-ac21-1740a8fc0b19": {
+      "fiber_id": "5a7a7330-df35-49ac-ac21-1740a8fc0b19",
+      "parent_id": "c5a8b127-9eaa-4cde-8877-37d451abbfe9",
       "moves": [
         {
           "value": "B",
@@ -51,9 +46,9 @@
         "draw_count": 0
       }
     },
-    "8f7aa223-e62c-4b0f-8eb4-1d28f45714c3": {
-      "fiber_id": "8f7aa223-e62c-4b0f-8eb4-1d28f45714c3",
-      "parent_id": "33b6cde5-2841-44ab-b6ac-d60633827497",
+    "f7c5835f-6fc3-4d90-a691-c00dc0e5c439": {
+      "fiber_id": "f7c5835f-6fc3-4d90-a691-c00dc0e5c439",
+      "parent_id": "5a7a7330-df35-49ac-ac21-1740a8fc0b19",
       "moves": [
         {
           "value": "C",
@@ -68,9 +63,9 @@
         "draw_count": 0
       }
     },
-    "b1647275-f775-4aaf-baa4-7f858f8d0039": {
-      "fiber_id": "b1647275-f775-4aaf-baa4-7f858f8d0039",
-      "parent_id": "33b6cde5-2841-44ab-b6ac-d60633827497",
+    "b8a78712-70ed-4fcc-94d8-0f31325a7b58": {
+      "fiber_id": "b8a78712-70ed-4fcc-94d8-0f31325a7b58",
+      "parent_id": "5a7a7330-df35-49ac-ac21-1740a8fc0b19",
       "moves": [
         {
           "value": "D",
@@ -85,9 +80,9 @@
         "draw_count": 0
       }
     },
-    "4a4627e7-bcc0-4a87-be25-8657865238ae": {
-      "fiber_id": "4a4627e7-bcc0-4a87-be25-8657865238ae",
-      "parent_id": "5c0d4375-7f72-4716-b64b-35c1907b66cd",
+    "d0d21000-c2c7-4033-acd6-3a1ecdf900af": {
+      "fiber_id": "d0d21000-c2c7-4033-acd6-3a1ecdf900af",
+      "parent_id": "c5a8b127-9eaa-4cde-8877-37d451abbfe9",
       "moves": [
         {
           "value": "E",
@@ -102,5 +97,18 @@
         "draw_count": 0
       }
     }
+  },
+  "children_map": {
+    "root": [
+      "c5a8b127-9eaa-4cde-8877-37d451abbfe9"
+    ],
+    "c5a8b127-9eaa-4cde-8877-37d451abbfe9": [
+      "5a7a7330-df35-49ac-ac21-1740a8fc0b19",
+      "d0d21000-c2c7-4033-acd6-3a1ecdf900af"
+    ],
+    "5a7a7330-df35-49ac-ac21-1740a8fc0b19": [
+      "f7c5835f-6fc3-4d90-a691-c00dc0e5c439",
+      "b8a78712-70ed-4fcc-94d8-0f31325a7b58"
+    ]
   }
 }

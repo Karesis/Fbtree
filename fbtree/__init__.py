@@ -1,66 +1,70 @@
 """
-FiberTree: A path-oriented database for storing and analyzing sequential decision paths.
+FiberTree: 专注于存储和分析顺序决策路径的数据库系统
 
-FiberTree helps you track, analyze and optimize sequential decision processes by storing 
-decision paths (fibers) and their outcomes.
+FiberTree 帮助您跟踪、分析和优化决策过程，
+通过记录决策路径（fiber）及其结果，为您提供深入的数据分析和决策支持。
 
-Basic usage:
-    from fbtree import FiberTree, Move
+基本用法:
+    from fbtree import create_tree, Move
     
-    # Create a tree
-    tree = FiberTree()
+    # 创建一个树
+    tree = create_tree()
     
-    # Start building a path
+    # 开始构建路径
     tree.start_path()
     
-    # Add moves to the path
+    # 添加移动到路径
     tree.add_move(Move(1))
     tree.add_move(Move(2))
     tree.add_move(Move(3))
     
-    # Record the outcome
+    # 记录结果
     tree.record_outcome('win')
     
-    # Get statistics
+    # 获取统计信息
     stats = tree.get_statistics()
 """
 
-from .main import FiberTree, Fiber, Move
+from .core.move import Move
+from .core.fiber import Fiber
+from .core.tree import FiberTree
 
-# Simplified interface
+# 简化的接口函数
 def create_tree(storage_type='memory', db_path=None, max_cache_size=1000):
     """
-    Create a new FiberTree with simplified parameters.
+    创建一个新的FiberTree，使用简化的参数。
     
     Args:
-        storage_type: 'memory' (faster, non-persistent) or 'sqlite' (persistent)
-        db_path: Path to SQLite database file (required if storage_type='sqlite')
-        max_cache_size: Maximum number of fibers to cache in memory
+        storage_type: 'memory' (更快，非持久化) 或 'sqlite' (持久化)
+        db_path: SQLite数据库文件路径（当storage_type='sqlite'时需要）
+        max_cache_size: 内存缓存的最大项数
         
     Returns:
-        FiberTree: A new tree instance
+        FiberTree: 新创建的树实例
     """
     return FiberTree(storage_type=storage_type, db_path=db_path, max_cache_size=max_cache_size)
 
 def load_tree(file_path, storage_type='memory', db_path=None):
     """
-    Load a FiberTree from a JSON file.
+    从JSON文件加载FiberTree。
     
     Args:
-        file_path: Path to the JSON file to load
-        storage_type: 'memory' or 'sqlite' for the loaded tree
-        db_path: Path to SQLite database (required if storage_type='sqlite')
+        file_path: 要加载的JSON文件路径
+        storage_type: 'memory' 或 'sqlite'
+        db_path: SQLite数据库路径（当storage_type='sqlite'时需要）
         
     Returns:
-        FiberTree: The loaded tree instance
+        FiberTree: 加载的树实例
     """
     return FiberTree.import_from_json(file_path, storage_type, db_path)
 
-# Add simplified method aliases to FiberTree class
-FiberTree.start_path = FiberTree.start_adding_mode
-FiberTree.end_path = FiberTree.end_adding_mode
-FiberTree.record_outcome = FiberTree.update_statistics
-FiberTree.save = FiberTree.export_to_json
+__all__ = [
+    'Move',
+    'Fiber',
+    'FiberTree',
+    'create_tree',
+    'load_tree'
+]
 
-# Version info
+# 版本信息
 __version__ = "1.0.0"
