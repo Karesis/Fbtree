@@ -141,3 +141,15 @@ with open('tree_data.json', 'w') as f:
 ## 许可
 
 本项目基于MIT许可证 - 详情请参阅 [LICENSE](LICENSE) 文件 
+
+## 引用
+@software{FiberTree,
+  author = {杨亦锋},
+  title = {FiberTree: Decision Path Analysis Library},
+  year = {2025},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/Karesis/Fbtree}},
+  version = {1.2.0},
+  license = {MIT}
+}
