@@ -143,6 +143,7 @@ with open('tree_data.json', 'w') as f:
 本项目基于MIT许可证 - 详情请参阅 [LICENSE](LICENSE) 文件 
 
 ## 引用
+```bibtex
 @software{FiberTree,
   author = {杨亦锋},
   title = {FiberTree: Decision Path Analysis Library},
@@ -153,3 +154,4 @@ with open('tree_data.json', 'w') as f:
   version = {1.2.0},
   license = {MIT}
 }
+```
