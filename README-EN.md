@@ -141,3 +141,18 @@ Contributions in code, issue reporting, or feature suggestions are welcome. Plea
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details 
+
+
+## Academic Citation
+```bibtex
+@software{FiberTree,
+  author = {杨亦锋},
+  title = {FiberTree: Decision Path Analysis Library},
+  year = {2025},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/Karesis/Fbtree}},
+  version = {1.2.0},
+  license = {MIT}
+}
+```
